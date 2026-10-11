@@ -5,8 +5,8 @@ const KEY = "benahin-reports";
 
 const DATA_AWAL = [
   { id: 1, namaPelapor: "Budi", gedung: "Gedung A", ruangan: "A-201", kategori: "Elektronik", deskripsi: "AC tidak dingin", foto: null, status: "Menunggu", tanggal: "2026-10-08" },
-  { id: 2, namaPelapor: "Sari", gedung: "Gedung B", ruangan: "B-105", kategori: "Furniture", deskripsi: "Kursi patah", foto: null, status: "Sedang Diproses", tanggal: "2026-10-09" },
-  { id: 3, namaPelapor: "Andi", gedung: "Gedung C", ruangan: "C-302", kategori: "Elektronik", deskripsi: "Proyektor mati", foto: null, status: "Selesai", tanggal: "2026-10-07" },
+  { id: 2, namaPelapor: "Sari", gedung: "Gedung B", ruangan: "B-105", kategori: "Furniture", deskripsi: "Kursi patah", foto: null, status: "Sedang Diproses", tanggal: "2026-10-09", estimasiSelesai: "2-3 Hari" },
+  { id: 3, namaPelapor: "Andi", gedung: "Gedung C", ruangan: "C-302", kategori: "Elektronik", deskripsi: "Proyektor mati", foto: null, status: "Selesai", tanggal: "2026-10-07", buktiSelesai: null, catatanAdmin: "Komponen lampu proyektor telah diganti baru." },
 ];
 
 function muat() {
@@ -40,11 +40,24 @@ export function ReportsProvider({ children }) {
       ...prev,
     ]);
 
-  const updateStatus = (id, status) =>
-    setReports((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+  const updateStatus = (id, status, extraData = {}) =>
+    setReports((prev) =>
+      prev.map((r) =>
+        r.id === id
+          ? {
+              ...r,
+              status,
+              ...(extraData || {}),
+            }
+          : r
+      )
+    );
+
+  const deleteReport = (id) =>
+    setReports((prev) => prev.filter((r) => r.id !== id));
 
   return (
-    <ReportsContext.Provider value={{ reports, addReport, updateStatus }}>
+    <ReportsContext.Provider value={{ reports, addReport, updateStatus, deleteReport }}>
       {children}
     </ReportsContext.Provider>
   );

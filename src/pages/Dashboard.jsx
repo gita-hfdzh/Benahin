@@ -71,10 +71,18 @@ function Dashboard() {
                                     <p>
                                         {report.gedung} · {report.ruangan}
                                     </p>
-                                    <small>{report.tanggal}</small>
+                                    <div className="report-item-meta">
+                                        <small>{report.tanggal}</small>
+                                        {report.status === "Sedang Diproses" && report.estimasiSelesai && (
+                                            <small className="dashboard-estimasi">· ⏱ Estimasi siap: {report.estimasiSelesai}</small>
+                                        )}
+                                        {report.status === "Selesai" && report.buktiSelesai && (
+                                            <small className="dashboard-proof-tag">· ✓ Bukti perbaikan tersedia</small>
+                                        )}
+                                    </div>
                                 </div>
 
-                                <span className="report-status">
+                                <span className={`report-status status-${report.status?.toLowerCase().replace(/\s+/g, "-")}`}>
                                     {report.status}
                                 </span>
                             </article>

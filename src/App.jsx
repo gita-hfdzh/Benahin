@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard'
+import Admin from './pages/Admin'
 import ReportForm from './components/ReportForm'
 import { useReports } from './context/ReportsContext'
 
@@ -56,12 +57,7 @@ function App() {
             <ReportForm onSubmit={addReport} />
           )}
 
-          {halaman === 'admin' && (
-            <section className="coming-soon">
-              <h1>Kelola Admin</h1>
-              <p>Halaman ini akan diintegrasikan setelah fitur Kelola Admin selesai dibuat.</p>
-            </section>
-          )}
+          {halaman === 'admin' && <Admin />}
         </div>
       </div>
     </div>

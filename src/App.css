@@ -230,14 +230,46 @@
   margin-bottom: 5px;
 }
 
+.report-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard-estimasi {
+  color: #2563eb !important;
+  font-weight: 600;
+}
+
+.dashboard-proof-tag {
+  color: #16a34a !important;
+  font-weight: 600;
+}
+
 .report-status {
   flex-shrink: 0;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
   background: #eef4ff;
   color: #285ba5;
   font-size: 11px;
   font-weight: 600;
+}
+
+.report-status.status-menunggu {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.report-status.status-sedang-diproses {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.report-status.status-selesai {
+  background: #dcfce7;
+  color: #15803d;
 }
 
 .coming-soon {
