@@ -53,7 +53,7 @@ function App() {
   const { user, logout, isAdmin, isPelapor } = useAuth()
   const { addReport } = useReports()
 
-  // State untuk toggle buka-tutup sidebar (hamburger style)
+  // State untuk toggle sidebar 
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
     return typeof window !== 'undefined' ? window.innerWidth > 1000 : true
   })
