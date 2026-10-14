@@ -85,11 +85,10 @@ function App() {
   const currentRole = user.role || 'pelapor'
   const halaman = activeTab[currentRole] || (isAdmin ? 'admin' : 'dashboard')
 
-  // Menu tanpa kata peran yang berulang
+  // Menu tanpa kata peran yang berulang (Admin hanya kelola admin)
   const menu = isAdmin
     ? [
         { id: 'admin', label: 'Kelola Admin', icon: <AdminIcon /> },
-        { id: 'dashboard', label: 'Dashboard Laporan', icon: <DashboardIcon /> },
       ]
     : [
         { id: 'dashboard', label: 'Dashboard', icon: <DashboardIcon /> },
