@@ -2,8 +2,46 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
+function EyeIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
+
 export default function Login() {
-  const { login, quickLogin, defaultAccounts } = useAuth();
+  const { login } = useAuth();
 
   const [role, setRole] = useState("pelapor"); // "pelapor" | "admin"
   const [username, setUsername] = useState("");
@@ -15,13 +53,8 @@ export default function Login() {
   const handleRoleChange = (newRole) => {
     setRole(newRole);
     setError("");
-    // Clear password when changing tabs
     setPassword("");
-    if (newRole === "admin") {
-      setUsername("admin");
-    } else {
-      setUsername("pelapor");
-    }
+    setUsername("");
   };
 
   const handleSubmit = (e) => {
@@ -35,24 +68,7 @@ export default function Login() {
         setError(res.error);
         setIsLoading(false);
       }
-    }, 250);
-  };
-
-  const handleQuickLogin = (targetRole) => {
-    setError("");
-    quickLogin(targetRole);
-  };
-
-  const handleFillDemo = (targetRole) => {
-    setError("");
-    setRole(targetRole);
-    if (targetRole === "admin") {
-      setUsername(defaultAccounts.admin.username);
-      setPassword(defaultAccounts.admin.password);
-    } else {
-      setUsername(defaultAccounts.pelapor.username);
-      setPassword(defaultAccounts.pelapor.password);
-    }
+    }, 200);
   };
 
   return (
@@ -61,26 +77,24 @@ export default function Login() {
         {/* Brand Header */}
         <div className="login-brand">
           <div className="login-brand-icon">B</div>
-          <h1 className="login-brand-name">
+          <span className="login-brand-name">
             Benahin<span className="login-brand-dot">.</span>
-          </h1>
+          </span>
         </div>
+
+        <h1 className="login-title">Masuk ke Akun</h1>
         <p className="login-subtitle">
-          Sistem Terpadu Pelaporan Fasilitas Kampus
+          Sistem Pelaporan dan Pengelolaan Fasilitas Kampus
         </p>
 
-        {/* Role Switcher Tabs */}
+        {/* Role Selector Tabs */}
         <div className="login-role-tabs">
           <button
             type="button"
             className={`role-tab ${role === "pelapor" ? "active" : ""}`}
             onClick={() => handleRoleChange("pelapor")}
           >
-            <span className="role-tab-icon">🎒</span>
-            <div className="role-tab-text">
-              <strong>Pelapor</strong>
-              <small>Mahasiswa / Civitas</small>
-            </div>
+            Pelapor
           </button>
 
           <button
@@ -88,34 +102,20 @@ export default function Login() {
             className={`role-tab ${role === "admin" ? "active" : ""}`}
             onClick={() => handleRoleChange("admin")}
           >
-            <span className="role-tab-icon">⚙️</span>
-            <div className="role-tab-text">
-              <strong>Admin</strong>
-              <small>Pengelola Sarpras</small>
-            </div>
+            Admin
           </button>
         </div>
 
-        {/* Role Information Banner */}
-        <div className={`role-info-banner role-${role}`}>
-          {role === "pelapor" ? (
-            <p>
-              💡 Masuk untuk mengajukan pengaduan fasilitas kampus dan memantau
-              status pengerjaan perbaikan secara langsung.
-            </p>
-          ) : (
-            <p>
-              🔒 <strong>Akses Khusus Admin:</strong> Masuk untuk memverifikasi
-              laporan, menentukan estimasi waktu, dan mengunggah foto bukti
-              penyelesaian.
-            </p>
-          )}
+        {/* Role Info Notice */}
+        <div className={`role-notice role-${role}`}>
+          {role === "pelapor"
+            ? "Masuk untuk melaporkan kerusakan fasilitas dan memantau perkembangannya."
+            : "Masuk untuk verifikasi laporan, estimasi pengerjaan, dan bukti penyelesaian."}
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="login-alert error">
-            <span className="alert-icon">⚠️</span>
+          <div className="login-alert error" role="alert">
             <span>{error}</span>
           </div>
         )}
@@ -126,32 +126,26 @@ export default function Login() {
             <label htmlFor="username">
               Username atau Email {role === "admin" ? "Admin" : "Pelapor"}
             </label>
-            <div className="input-wrapper">
-              <span className="input-icon">👤</span>
-              <input
-                id="username"
-                type="text"
-                placeholder={
-                  role === "admin"
-                    ? "Contoh: admin atau admin@benahin.ac.id"
-                    : "Contoh: pelapor atau nama Anda"
-                }
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                autoComplete="username"
-              />
-            </div>
+            <input
+              id="username"
+              type="text"
+              placeholder={
+                role === "admin" ? "Username admin" : "Username pelapor"
+              }
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+            />
           </div>
 
           <div className="form-field">
             <label htmlFor="password">Kata Sandi</label>
-            <div className="input-wrapper">
-              <span className="input-icon">🔑</span>
+            <div className="password-input-wrapper">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Masukkan kata sandi..."
+                placeholder="Masukkan kata sandi"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -161,78 +155,27 @@ export default function Login() {
                 type="button"
                 className="toggle-password-btn"
                 onClick={() => setShowPassword(!showPassword)}
-                title={showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"}
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
               >
-                {showPassword ? "🙈" : "👁️"}
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
             </div>
           </div>
 
           <button
             type="submit"
-            className={`btn-login-submit ${role === "admin" ? "btn-admin" : "btn-pelapor"}`}
+            className="btn-login-submit"
             disabled={isLoading}
           >
             {isLoading
-              ? "Memproses Masuk..."
+              ? "Memproses..."
               : `Masuk sebagai ${role === "admin" ? "Admin" : "Pelapor"}`}
           </button>
         </form>
 
-        {/* Demo Accounts Quick Fill & Quick Login */}
-        <div className="demo-section">
-          <div className="demo-divider">
-            <span>Bantuan Akun Demo</span>
-          </div>
-
-          <div className="demo-credentials">
-            <div className="demo-cred-item">
-              <span className="demo-cred-role">Pelapor:</span>
-              <code>pelapor</code> / <code>pelapor123</code>
-              <button
-                type="button"
-                className="btn-demo-fill"
-                onClick={() => handleFillDemo("pelapor")}
-                title="Isi form dengan akun pelapor"
-              >
-                Isi Form
-              </button>
-            </div>
-            <div className="demo-cred-item">
-              <span className="demo-cred-role">Admin:</span>
-              <code>admin</code> / <code>admin123</code>
-              <button
-                type="button"
-                className="btn-demo-fill"
-                onClick={() => handleFillDemo("admin")}
-                title="Isi form dengan akun admin"
-              >
-                Isi Form
-              </button>
-            </div>
-          </div>
-
-          <div className="quick-login-buttons">
-            <button
-              type="button"
-              className="btn-quick-login pelapor"
-              onClick={() => handleQuickLogin("pelapor")}
-            >
-              ⚡ 1-Klik Masuk Pelapor
-            </button>
-            <button
-              type="button"
-              className="btn-quick-login admin"
-              onClick={() => handleQuickLogin("admin")}
-            >
-              ⚡ 1-Klik Masuk Admin
-            </button>
-          </div>
-        </div>
-
-        {/* Footer */}
         <div className="login-footer">
-          <p>© 2026 Benahin · Sistem Fasilitas Kampus</p>
+          <p>Benahin Kampus &middot; Hak Cipta Terpelihara</p>
         </div>
       </div>
     </div>

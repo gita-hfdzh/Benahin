@@ -74,10 +74,10 @@ function Dashboard() {
                                     <div className="report-item-meta">
                                         <small>{report.tanggal}</small>
                                         {report.status === "Sedang Diproses" && report.estimasiSelesai && (
-                                            <small className="dashboard-estimasi">· ⏱ Estimasi siap: {report.estimasiSelesai}</small>
+                                            <small className="dashboard-estimasi">· Estimasi siap: {report.estimasiSelesai}</small>
                                         )}
                                         {report.status === "Selesai" && report.buktiSelesai && (
-                                            <small className="dashboard-proof-tag">· ✓ Bukti perbaikan tersedia</small>
+                                            <small className="dashboard-proof-tag">· Bukti perbaikan tersedia</small>
                                         )}
                                     </div>
                                 </div>

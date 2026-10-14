@@ -137,7 +137,10 @@ export default function Admin() {
       {/* Kontrol Pencarian & Filter */}
       <section className="admin-toolbar">
         <div className="search-box">
-          <span className="search-icon">🔍</span>
+          <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
           <input
             type="text"
             placeholder="Cari pelapor, lokasi gedung, kategori, atau deskripsi..."
@@ -230,7 +233,7 @@ export default function Admin() {
                       {report.status === "Sedang Diproses" && (
                         <div className="progress-info">
                           <span className="estimasi-badge">
-                            ⏱ {report.estimasiSelesai ? report.estimasiSelesai : "Estimasi belum ditentukan"}
+                            Estimasi: {report.estimasiSelesai ? report.estimasiSelesai : "Belum ditentukan"}
                           </span>
                         </div>
                       )}
@@ -244,7 +247,7 @@ export default function Admin() {
                               title="Lihat foto bukti perbaikan"
                             >
                               <img src={report.buktiSelesai} alt="Bukti Selesai" className="table-thumb" />
-                              <span>✓ Bukti Foto</span>
+                              <span>Bukti Foto</span>
                             </button>
                           ) : (
                             <span className="no-proof">Belum ada foto bukti</span>
@@ -271,8 +274,12 @@ export default function Admin() {
                         className="btn-delete"
                         onClick={() => handleDelete(report.id)}
                         title="Hapus laporan"
+                        aria-label="Hapus laporan"
                       >
-                        🗑
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
                       </button>
                     </td>
                   </tr>
@@ -374,7 +381,7 @@ export default function Admin() {
                       className="proof-file-input"
                     />
                     <label htmlFor="proof-file" className="proof-upload-label">
-                      📷 {modalBukti ? "Ganti Foto Bukti" : "Pilih Foto Bukti Selesai"}
+                      {modalBukti ? "Ganti Foto Bukti" : "Pilih Foto Bukti Selesai"}
                     </label>
 
                     {modalBukti && (
