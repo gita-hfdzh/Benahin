@@ -71,11 +71,11 @@
 }
 
 .admin-stat-card.status-menunggu .stat-value {
-  color: #d97706;
+  color: #dc2626;
 }
 
 .admin-stat-card.status-diproses .stat-value {
-  color: #2563eb;
+  color: #d97706;
 }
 
 .admin-stat-card.status-selesai .stat-value {
@@ -322,13 +322,13 @@
 }
 
 .status-menunggu {
-  background: #fef3c7;
-  color: #b45309;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 .status-sedang-diproses {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .status-selesai {
@@ -342,9 +342,9 @@
   align-items: center;
   padding: 4px 8px;
   border-radius: 6px;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: #1e40af;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #b45309;
   font-size: 11px;
   font-weight: 600;
 }
@@ -537,15 +537,15 @@
 }
 
 .status-choice-btn.active.status-choice-menunggu {
-  background: #fef3c7;
-  color: #92400e;
-  border-color: #f59e0b;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #ef4444;
 }
 
 .status-choice-btn.active.status-choice-sedang-diproses {
-  background: #dbeafe;
-  color: #1e40af;
-  border-color: #3b82f6;
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #f59e0b;
 }
 
 .status-choice-btn.active.status-choice-selesai {
@@ -562,8 +562,8 @@
 }
 
 .section-diproses {
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
 }
 
 .section-selesai {

@@ -6,12 +6,15 @@
   width: 100%;
 }
 
-/* Sidebar Styles */
+/* Sidebar Styles - Sticky on viewport */
 .sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
   width: 250px;
   min-width: 250px;
   max-width: 250px;
-  min-height: 100vh;
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
@@ -25,17 +28,33 @@
               visibility 0.25s ease;
   z-index: 50;
   box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   flex-shrink: 0;
 }
 
 .sidebar-inner {
   width: 214px;
   min-width: 214px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 48px);
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.sidebar-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar untuk menu sidebar jika panjang */
+.sidebar-content-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-content-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 /* Desktop Collapse (Tanpa negative margin agar tidak memotong main-area) */
@@ -52,16 +71,9 @@
     visibility: hidden !important;
     border: none !important;
   }
-
-  .sidebar-close-btn {
-    display: none;
-  }
 }
 
 .sidebar-brand-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 20px;
 }
 
@@ -90,23 +102,6 @@
   color: #60a5fa;
 }
 
-.sidebar-close-btn {
-  background: rgba(255, 255, 255, 0.12);
-  border: none;
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.15s;
-}
-
-.sidebar-close-btn:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
-
 /* User Pill in Sidebar */
 .sidebar-user-pill {
   display: flex;
@@ -117,11 +112,6 @@
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
-}
-
-.sidebar-user-pill.role-admin {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.25);
 }
 
 .user-avatar-initial {
@@ -218,13 +208,15 @@
   flex-shrink: 0;
 }
 
+/* Sidebar Footer Sticky */
 .sidebar-footer {
-  margin-top: auto;
-  padding: 16px 4px 0;
+  flex-shrink: 0;
+  padding: 14px 4px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  background: #173b70;
 }
 
 .btn-sidebar-logout {
@@ -347,60 +339,20 @@
   gap: 12px;
 }
 
+/* User Badge Ringkas di Topbar (tanpa tag peran redundan) */
 .topbar-user-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
-}
-
-.topbar-user-badge.role-admin {
-  background: #fffbeb;
-  border-color: #fde68a;
-}
-
-.badge-role-tag {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  background: #2563eb;
-  color: #fff;
-}
-
-.topbar-user-badge.role-admin .badge-role-tag {
-  background: #b45309;
 }
 
 .badge-user-name {
   font-size: 13px;
   font-weight: 600;
   color: #1e293b;
-}
-
-.topbar-logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #64748b;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.topbar-logout-btn:hover {
-  background: #fef2f2;
-  border-color: #fecaca;
-  color: #dc2626;
 }
 
 .page-content {
@@ -525,7 +477,7 @@
 }
 
 .dashboard-estimasi {
-  color: #2563eb !important;
+  color: #b45309 !important;
   font-weight: 600;
 }
 
@@ -534,24 +486,23 @@
   font-weight: 600;
 }
 
+/* Status: Menunggu (Merah), Diproses (Kuning), Selesai (Hijau) */
 .report-status {
   flex-shrink: 0;
   padding: 5px 12px;
   border-radius: 20px;
-  background: #eef4ff;
-  color: #285ba5;
   font-size: 11px;
   font-weight: 600;
 }
 
 .report-status.status-menunggu {
-  background: #fef3c7;
-  color: #b45309;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 .report-status.status-sedang-diproses {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .report-status.status-selesai {
@@ -612,10 +563,6 @@
     z-index: 999;
   }
 
-  .sidebar-close-btn {
-    display: grid;
-  }
-
   .page-content {
     padding: 22px 18px;
   }
@@ -638,14 +585,10 @@
 
   .topbar-breadcrumb {
     font-size: 12px;
-    max-width: 140px;
+    max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .badge-user-name {
-    display: none;
   }
 
   .page-content {

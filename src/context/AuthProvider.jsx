@@ -7,7 +7,12 @@ const AUTH_KEY = "benahin-auth-user";
 function muatUser() {
   try {
     const tersimpan = localStorage.getItem(AUTH_KEY);
-    return tersimpan ? JSON.parse(tersimpan) : null;
+    if (!tersimpan) return null;
+    const parsed = JSON.parse(tersimpan);
+    if (parsed && typeof parsed.name === "string") {
+      parsed.name = parsed.name.replace(/\s*\(Pelapor\)/i, "");
+    }
+    return parsed;
   } catch {
     return null;
   }

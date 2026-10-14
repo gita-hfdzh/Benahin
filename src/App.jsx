@@ -39,15 +39,6 @@ function AdminIcon() {
   )
 }
 
-function CloseIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  )
-}
-
 function LogoutIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -94,7 +85,7 @@ function App() {
   const currentRole = user.role || 'pelapor'
   const halaman = activeTab[currentRole] || (isAdmin ? 'admin' : 'dashboard')
 
-  // Pisahkan menu secara tegas antara Admin dan Pelapor dengan ikon SVG
+  // Menu tanpa kata peran yang berulang
   const menu = isAdmin
     ? [
         { id: 'admin', label: 'Kelola Admin', icon: <AdminIcon /> },
@@ -135,52 +126,45 @@ function App() {
       {/* Sidebar Navigasi */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-inner">
-          <div className="sidebar-brand-wrapper">
-            <div className="brand">
-              <span className="brand-icon">B</span>
-              <span>Benahin<span className="brand-dot">.</span></span>
+          <div className="sidebar-content-scroll">
+            <div className="sidebar-brand-wrapper">
+              <div className="brand">
+                <span className="brand-icon">B</span>
+                <span>Benahin<span className="brand-dot">.</span></span>
+              </div>
             </div>
-            <button
-              type="button"
-              className="sidebar-close-btn"
-              onClick={() => setIsSidebarOpen(false)}
-              aria-label="Tutup menu sidebar"
-            >
-              <CloseIcon />
-            </button>
+
+            {/* Info profil pengguna ringkas di sidebar */}
+            <div className={`sidebar-user-pill role-${user.role}`}>
+              <div className="user-avatar-initial">
+                {userInitial}
+              </div>
+              <div className="user-details-mini">
+                <span className="user-name-mini">{user.name}</span>
+                <span className="user-role-badge">
+                  {user.role === 'admin' ? 'Administrator' : 'Pelapor'}
+                </span>
+              </div>
+            </div>
+
+            <p className="menu-heading">MENU UTAMA</p>
+
+            <nav className="sidebar-menu">
+              {menu.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`menu-item ${halaman === item.id ? 'active' : ''}`}
+                  onClick={() => handleNavClick(item.id)}
+                >
+                  <span className="menu-icon">{item.icon}</span>
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </nav>
           </div>
 
-          {/* Info profil pengguna di sidebar */}
-          <div className={`sidebar-user-pill role-${user.role}`}>
-            <div className="user-avatar-initial">
-              {userInitial}
-            </div>
-            <div className="user-details-mini">
-              <span className="user-name-mini">{user.name}</span>
-              <span className="user-role-badge">
-                {user.role === 'admin' ? 'Administrator' : 'Pelapor'}
-              </span>
-            </div>
-          </div>
-
-          <p className="menu-heading">
-            {user.role === 'admin' ? 'MENU ADMINISTRATOR' : 'MENU PELAPOR'}
-          </p>
-
-          <nav className="sidebar-menu">
-            {menu.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`menu-item ${halaman === item.id ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.id)}
-              >
-                <span className="menu-icon">{item.icon}</span>
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-
+          {/* Footer sidebar selalu sticky di bawah sidebar */}
           <div className="sidebar-footer">
             <button
               type="button"
@@ -202,7 +186,7 @@ function App() {
       <div className="main-area">
         <header className="topbar">
           <div className="topbar-left">
-            {/* Tombol Hamburger Toggle Sidebar */}
+            {/* Tombol Hamburger Toggle Sidebar Utama */}
             <button
               type="button"
               className={`hamburger-toggle-btn ${isSidebarOpen ? 'is-active' : ''}`}
@@ -221,22 +205,10 @@ function App() {
           </div>
 
           <div className="topbar-right">
-            <div className={`topbar-user-badge role-${user.role}`}>
-              <span className="badge-role-tag">
-                {user.role === 'admin' ? 'ADMIN' : 'PELAPOR'}
-              </span>
+            {/* Profil nama pengguna sederhana tanpa label peran redundan dan tanpa logout ganda */}
+            <div className="topbar-user-badge">
               <span className="badge-user-name">{user.name}</span>
             </div>
-
-            <button
-              type="button"
-              className="topbar-logout-btn"
-              onClick={handleLogout}
-              title="Keluar dari akun"
-            >
-              <LogoutIcon />
-              <span>Keluar</span>
-            </button>
           </div>
         </header>
 

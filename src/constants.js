@@ -13,7 +13,7 @@ export const DEFAULT_ACCOUNTS = {
   pelapor: {
     username: "pelapor",
     password: "pelapor123",
-    name: "Budi Santoso (Pelapor)",
+    name: "Budi Santoso",
     role: "pelapor",
     email: "pelapor@kampus.ac.id",
   },
