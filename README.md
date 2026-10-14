@@ -11,7 +11,7 @@ https://hub.docker.com/r/iftitahptri/benahin
 
 Jalankan dengan:
 
-    docker run -p 8080:80 iftitahptri/benahin:v1-UTS
+    docker run -p 8080:80 iftitahptri/benahin:submit-UTS
 
 ## Design Pattern
 
