@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { KATEGORI, GEDUNG } from "../constants";
+import { useAuth } from "../context/AuthContext";
 import "./ReportForm.css";
 
 const AWAL = {
@@ -11,7 +12,11 @@ const AWAL = {
 };
 
 export default function ReportForm({ onSubmit }) {
-  const [form, setForm] = useState(AWAL);
+  const { user } = useAuth() || {};
+  const [form, setForm] = useState(() => ({
+    ...AWAL,
+    namaPelapor: user?.name || "",
+  }));
   const [foto, setFoto] = useState(null);
 
   const handleChange = (e) =>
@@ -28,7 +33,10 @@ export default function ReportForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ ...form, foto });
-    setForm(AWAL);
+    setForm({
+      ...AWAL,
+      namaPelapor: user?.name || "",
+    });
     setFoto(null);
   };
 
